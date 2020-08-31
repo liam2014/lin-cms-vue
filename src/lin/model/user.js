@@ -10,7 +10,7 @@ export default class User {
   static register(data) {
     return _axios({
       method: 'post',
-      url: 'cms/user/register',
+      url: 'api_cms/cms/v1/user/register', // 'cms/user/register',
       data,
       handleError: true,
     })
@@ -22,30 +22,41 @@ export default class User {
    * @param {string} password 密码
    */
   static async getToken(username, password) {
-    const tokens = await post('cms/user/login', {
+    const tokens = await post('api_cms/api/v1/login', {
+      // cms/user/login
       username,
       password,
+      client: 1,
+      time: 30 * 60,
     })
-    saveTokens(tokens.access_token, tokens.refresh_token)
-    return tokens
+    // const tokens = {
+    //   access_token: `access_token${username}`,
+    //   refresh_token: `refresh_token${password}`
+    // }
+    if (tokens === null || tokens.code !== 0) {
+      return null
+    }
+    saveTokens(tokens.data.access_token, tokens.data.refresh_token)
+    return tokens.data
   }
 
   /**
    * 获取当前用户信息，并返回User实例
    */
   static async getInformation() {
-    const info = await get('cms/user/information')
+    const info = await get('api_cms/cms/v1/user/information') // ('cms/user/information')
     const storeUser = store.getters.user === null ? {} : store.getters.user
-    return Object.assign({ ...storeUser }, info)
+    return Object.assign({ ...storeUser }, info.data)
   }
 
   /**
    * 获取当前用户信息和所拥有的权限
    */
   static async getPermissions() {
-    const info = await get('cms/user/permissions')
+    // const info = await get('cms/user/permissions')
+    const info = await get('api_cms/cms/v1/user/permissions')
     const storeUser = store.getters.user === null ? {} : store.getters.user
-    return Object.assign({ ...storeUser }, info)
+    return Object.assign({ ...storeUser }, info.data)
   }
 
   /**
@@ -55,7 +66,8 @@ export default class User {
    * @param {string} oldPassword 旧密码
    */
   static updatePassword({ old_password, new_password, confirm_password }) {
-    return put('cms/user/change_password', {
+    return put('api_cms/cms/v1/user/change_password', {
+      // ('cms/user/change_password', {
       new_password,
       confirm_password,
       old_password,

@@ -85,7 +85,7 @@ git clone https://github.com/TaleLin/lin-cms-vue.git
 npm install or yarn
 
 # develop
-npm run serve or yarn (run) serve
+npm run serve or yarn serve
 ```
 
 ## 讨论交流

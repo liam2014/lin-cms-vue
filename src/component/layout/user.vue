@@ -270,7 +270,7 @@ export default {
         // }
         return this.$axios({
           method: 'put',
-          url: '/cms/user',
+          url: '/api_cms/cms/v1/user',
           data: {
             avatar: res[0].path,
           },
@@ -308,7 +308,7 @@ export default {
         if (this.nickname !== user.nickname && this.nickname !== '佚名') {
           this.$axios({
             method: 'put',
-            url: '/cms/user',
+            url: '/api_cms/cms/v1/user',
             data: {
               nickname: this.nickname,
             },

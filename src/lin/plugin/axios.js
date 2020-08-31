@@ -98,7 +98,7 @@ _axios.interceptors.request.use(
       console.warn(`其他请求类型: ${reqConfig.method}, 暂无自动处理`)
     }
     // step2: permission 处理
-    if (reqConfig.url === 'cms/user/refresh') {
+    if (reqConfig.url === 'api_cms/cms/v1/user/refresh') {
       const refreshToken = getToken('refresh_token')
       if (refreshToken) {
         // eslint-disable-next-line no-param-reassign
@@ -143,8 +143,8 @@ _axios.interceptors.response.use(
         const cache = {}
         if (cache.url !== url) {
           cache.url = url
-          const refreshResult = await _axios('cms/user/refresh')
-          saveAccessToken(refreshResult.access_token)
+          const refreshResult = await _axios('api_cms/cms/v1/user/refresh') // ('cms/user/refresh')
+          saveAccessToken(refreshResult.data.access_token)
           // 将上次失败请求重发
           const result = await _axios(res.config)
           return resolve(result)

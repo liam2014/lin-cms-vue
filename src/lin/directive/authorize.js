@@ -2,7 +2,8 @@ import Vue from 'vue'
 import store from '@/store'
 
 function isAllowed(permission, user, permissions) {
-  if (user.admin) {
+  if (user.admin === 1) {
+    // if (user.admin) {
     return true
   }
   if (typeof permission === 'string') {
