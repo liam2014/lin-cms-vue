@@ -65,8 +65,8 @@
 <script>
 import Admin from '@/lin/model/admin'
 import LinTable from '@/component/base/table/lin-table'
-import UserInfo from '../user/user-info'
-import UserPassword from '../user/user-password'
+import UserInfo from './user-info'
+import UserPassword from './user-password'
 
 export default {
   components: { LinTable, UserInfo, UserPassword },
