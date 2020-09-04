@@ -37,6 +37,34 @@ export default class Rbac {
     return list
   }
 
+  static async updateOnePower(name, tag, id) {
+    const res = await put(`api_cms/cms/v1/rbac/power/${id}`, {
+      name,
+      tag,
+    })
+    return res
+  }
+
+  static async getPowers(size, current) {
+    const list = await get(`api_cms/cms/v1/rbac/powers?size=${size}&current=${current}`)
+    return list
+  }
+
+  static async createOnePower(name, tag) {
+    const res = await post('api_cms/cms/v1/rbac/power', {
+      name,
+      tag,
+    })
+    return res
+  }
+
+  static async deleteOnePower(id) {
+    const res = await put('api_cms/cms/v1/rbac/power-status', {
+      ids: [id],
+    })
+    return res
+  }
+
   static getAllPermissions() {
     return get('cms/admin/permission')
   }

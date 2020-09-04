@@ -38,18 +38,18 @@ const accountRouter = {
       ],
     },
     {
-      route: '/account/demo/list',
+      route: '/rbac/role/list',
       name: null,
       title: '角色管理',
       type: 'folder', // 取 route 为默认加载页
       icon: 'iconfont icon-huiyuanguanli',
-      filePath: 'view/account/demo/',
+      filePath: 'view/admin/rbac/',
       inNav: true,
       children: [
         {
           title: '角色列表',
           type: 'view',
-          name: 'RbacList',
+          name: 'RoleList',
           route: '/rbac/role/list',
           filePath: 'view/admin/rbac/role-list.vue',
           inNav: true,
@@ -58,7 +58,7 @@ const accountRouter = {
         {
           title: '添加角色',
           type: 'view',
-          name: 'RbacView',
+          name: 'RoleView',
           route: '/rbac/role/create',
           filePath: 'view/admin/rbac/role-create.vue',
           inNav: true,
@@ -76,7 +76,7 @@ const accountRouter = {
       ],
     },
     {
-      route: '/account/demo/list',
+      route: '/rbac/power/list',
       name: null,
       title: '权限管理',
       type: 'folder', // 取 route 为默认加载页
@@ -87,18 +87,18 @@ const accountRouter = {
         {
           title: '权限列表',
           type: 'view',
-          name: 'DemoList',
-          route: '/demo/list',
-          filePath: 'view/account/demo/demo-list.vue',
+          name: 'PowerList',
+          route: '/rbac/power/list',
+          filePath: 'view/admin/rbac/power-list.vue',
           inNav: true,
           icon: 'iconfont icon-tushuguanli',
         },
         {
           title: '添加权限',
           type: 'view',
-          name: 'DemoView',
-          route: '/demo/view',
-          filePath: 'view/account/demo/group-power.vue',
+          name: 'PowerCreate',
+          route: '/rbac/power/create',
+          filePath: 'view/admin/rbac/power-create.vue',
           inNav: true,
           icon: 'iconfont icon-tushuguanli',
         },
