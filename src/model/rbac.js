@@ -134,6 +134,18 @@ export default class Rbac {
     return res
   }
 
+  // user
+  static async createOneUser(form) {
+    const res = await post('api_cms/cms/v1/rbac/user', {
+      extended: '', // 支持扩展属性
+      role_ids: form.group_ids,
+      password: form.password,
+      email: form.email,
+      username: form.username,
+    })
+    return res
+  }
+
   static async updateOneGroup(name, info, id) {
     const res = await put(`api_cms/cms/v1/rbac/role/${id}`, {
       name,

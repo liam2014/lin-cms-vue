@@ -9,29 +9,29 @@ const accountRouter = {
   inNav: true,
   children: [
     {
-      route: '/account/demo/list',
+      route: '/rbac/user/list',
       name: null,
       title: '管理员',
       type: 'folder', // 取 route 为默认加载页
       icon: 'iconfont icon-huiyuanguanli',
-      filePath: 'view/account/demo/',
+      filePath: 'view/admin/rbac/',
       inNav: true,
       children: [
         {
           title: '管理员列表',
           type: 'view',
-          name: 'DemoList',
-          route: '/demo/list',
-          filePath: 'view/account/demo/demo-list.vue',
+          name: 'UserList',
+          route: '/rbac/user/list',
+          filePath: 'view/admin/rbac/user-list.vue',
           inNav: true,
           icon: 'iconfont icon-tushuguanli',
         },
         {
           title: '添加管理员',
           type: 'view',
-          name: 'DemoView',
-          route: '/demo/view',
-          filePath: 'view/account/demo/group-power.vue',
+          name: 'UserView',
+          route: '/rbac/user/create',
+          filePath: 'view/admin/rbac/user-create.vue',
           inNav: true,
           icon: 'iconfont icon-tushuguanli',
         },
