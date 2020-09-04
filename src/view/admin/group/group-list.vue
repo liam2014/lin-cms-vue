@@ -86,8 +86,9 @@ export default {
     // 获取所有分组并传给table渲染
     async getAllGroups() {
       try {
+        const got = await Admin.getAllGroups()
         this.loading = true
-        this.tableData = await Admin.getAllGroups()
+        this.tableData = got.data.list
         this.loading = false
       } catch (e) {
         this.loading = false
@@ -125,7 +126,7 @@ export default {
       }
       this.id = selectedData.id
       this.form.name = selectedData.name
-      this.form.info = selectedData.info
+      this.form.info = selectedData.extended.info
       this.cacheForm = { ...this.form }
       this.dialogFormVisible = true
     },
@@ -191,7 +192,10 @@ export default {
   },
   async created() {
     await this.getAllGroups()
-    this.tableColumn = [{ prop: 'name', label: '名称' }, { prop: 'info', label: '信息' }] // 设置表头信息
+    this.tableColumn = [
+      { prop: 'name', label: '名称' },
+      { prop: 'extended.info', label: '信息' },
+    ] // 设置表头信息
     this.operate = [
       { name: '信息', func: 'handleEdit', type: 'primary' },
       { name: '权限', func: 'goToGroupEditPage', type: 'info' },

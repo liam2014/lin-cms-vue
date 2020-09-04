@@ -49,6 +49,9 @@ export default {
     async getLists() {
       const books = await Demo.getDemos()
       console.log('list=', books)
+      if (books.code !== 0 || books.data === null) {
+        return
+      }
       this.tableData = books.data.list
       this.total_nums = books.data.pagination.tatal
     },

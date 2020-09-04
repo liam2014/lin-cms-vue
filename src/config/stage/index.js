@@ -1,4 +1,5 @@
 import adminConfig from './admin'
+import rbacConfig from './rbac'
 import bookConfig from './book' // 引入图书管理路由文件
 import accountConfig from './account'
 import pluginsConfig from './plugin'
@@ -48,6 +49,7 @@ let homeRouter = [
   bookConfig,
   adminConfig,
   accountConfig,
+  rbacConfig,
 ]
 
 const plugins = [...pluginsConfig]

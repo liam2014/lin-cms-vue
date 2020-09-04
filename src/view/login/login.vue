@@ -41,7 +41,12 @@ export default {
       const { username, password } = this.form
       try {
         this.loading = true
-        await User.getToken(username, password)
+        const data1 = await User.getToken(username, password)
+        if (data1 === null) {
+          this.loading = false
+          this.$message.error('登录不成功')
+          return
+        }
         await this.getInformation()
         this.loading = false
         this.$router.push('/about')

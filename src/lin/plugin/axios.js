@@ -4,7 +4,7 @@ import axios from 'axios'
 import Config from '@/config'
 import ErrorCode from '@/config/error-code'
 import store from '@/store'
-import { getToken, saveAccessToken } from '@/lin/util/token'
+import { getToken, saveTokens } from '@/lin/util/token'
 
 const config = {
   baseURL: Config.baseURL || process.env.apiUrl || '',
@@ -122,8 +122,13 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   async res => {
+    // console.log('res=', res)
     let { code, message } = res.data // eslint-disable-line
-    if (res.status.toString().charAt(0) === '2') {
+    // console.log('get code=', code)
+    if (res.status.toString().charAt(0) === '2' && code === 0) {
+      return res.data
+    }
+    if (res.status.toString().charAt(0) === '2' && (code < 10040 || code > 10059)) {
       return res.data
     }
     return new Promise(async (resolve, reject) => {
@@ -139,12 +144,14 @@ _axios.interceptors.response.use(
         return resolve(null)
       }
       // assessToken相关，刷新令牌
-      if (code === 10041 || code === 10051) {
+      if (code <= 10041 && code <= 10049) {
+        console.log('do refresh')
         const cache = {}
         if (cache.url !== url) {
           cache.url = url
           const refreshResult = await _axios('api_cms/cms/v1/user/refresh') // ('cms/user/refresh')
-          saveAccessToken(refreshResult.data.access_token)
+          // saveAccessToken(refreshResult.data.access_token)
+          saveTokens(refreshResult.data.access_token, refreshResult.data.refresh_token)
           // 将上次失败请求重发
           const result = await _axios(res.config)
           return resolve(result)

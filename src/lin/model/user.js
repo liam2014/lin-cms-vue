@@ -27,7 +27,7 @@ export default class User {
       username,
       password,
       client: 1,
-      time: 30 * 60,
+      login_flag: 0,
     })
     // const tokens = {
     //   access_token: `access_token${username}`,

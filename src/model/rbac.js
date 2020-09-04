@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { post, get, put, _delete } from '@/lin/plugin/axios'
 
-export default class Admin {
+export default class Rbac {
   constructor(uPage = 0, uCount = 10, gPage = 0, gCount = 5) {
     this.uPage = uPage
     this.uCount = uCount
@@ -91,11 +91,11 @@ export default class Admin {
     return group
   }
 
-  static async createOneGroup(name, info, permission_ids) {
-    const res = await post('cms/admin/group', {
+  static async createOneRole(name, info, power_ids) {
+    const res = await post('api_cms/cms/v1/rbac/role', {
       name,
-      info,
-      permission_ids,
+      extended: { info }, // 支持扩展属性
+      power_ids,
     })
     return res
   }
