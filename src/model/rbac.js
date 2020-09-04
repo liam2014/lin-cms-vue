@@ -31,6 +31,12 @@ export default class Rbac {
     }
   }
 
+  // power
+  static async getAllPowers() {
+    const list = await get('api_cms/cms/v1/rbac/powers?size=10000&current=1')
+    return list
+  }
+
   static getAllPermissions() {
     return get('cms/admin/permission')
   }
@@ -87,7 +93,7 @@ export default class Rbac {
   }
 
   static async getOneGroup(id) {
-    const group = await get(`cms/admin/group/${id}`)
+    const group = await get(`api_cms/cms/v1/rbac/role/${id}`)
     return group
   }
 
@@ -104,6 +110,13 @@ export default class Rbac {
     const res = await put(`api_cms/cms/v1/rbac/role/${id}`, {
       name,
       extended: { info },
+    })
+    return res
+  }
+
+  static async updateOneGroupPower(id, power) {
+    const res = await put(`api_cms/cms/v1/rbac/role-power/${id}`, {
+      power_ids: power,
     })
     return res
   }

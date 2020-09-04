@@ -72,12 +72,6 @@ export default {
     }
   },
   methods: {
-    updatePermissions(permissions) {
-      this.permissions = permissions
-    },
-    updateAllPermissions(allPermissions) {
-      this.allPermissions = allPermissions
-    },
     async submitForm(formName) {
       this.$refs[formName].validate(async valid => {
         // eslint-disable-line
@@ -86,8 +80,7 @@ export default {
           return false
         }
         let res
-        this.getPermissionsIDs(this.allPermissions)
-        const finalPermissions = this.permissions
+        const finalPermissions = this.getPermissionsIDs(this.allPermissions)
         try {
           this.loading = true
           res = await Rbac.createOneRole(this.form.name, this.form.info, finalPermissions) // eslint-disable-line
@@ -99,7 +92,7 @@ export default {
           this.loading = false
           this.$message.success(`${res.message}`)
           this.eventBus.$emit('addGroup', true)
-          this.$router.push('/admin/group/list')
+          this.$router.push('/rbac/role/list')
           this.resetForm('form')
         } else {
           this.loading = false
@@ -109,7 +102,6 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
-      this.$refs.groupPermissions.getGroupPermissions()
     },
     confirmSellAll() {
       this.allPermissions = this.allPermissions.map(item => {
@@ -119,29 +111,24 @@ export default {
       this.isSelectAll = !this.isSelectAll
     },
     getPermissionsIDs(list) {
-      this.permissions = []
+      const ls = []
       list.forEach(item => {
         if (item.checked === true) {
-          this.permissions.push(item.id)
+          ls.push(item.id)
         }
       })
-      console.log('sel=', this.permissions)
+      return ls
     },
-    getPermisssionsList() {
-      setTimeout(() => {
-        this.allPermissions = [
-          { id: '1', pid: 1, name: '地区', checked: true },
-          { id: '2', pid: 2, name: '游戏类型', checked: true },
-          { id: '3', pid: 4, name: '性别', checked: true },
-          { id: '4', pid: 5, name: '设备类型', checked: true },
-          { id: '5', pid: 6, name: '休闲时间', checked: true },
-          { id: '6', pid: 7, name: '王者荣耀', checked: true },
-          { id: '7', pid: 8, name: '音乐', checked: true },
-          { id: '8', pid: 9, name: '品牌手表', checked: true },
-          { id: '9', pid: 10, name: '相机', checked: true },
-          { id: '10', pid: 12, name: '游戏人群', checked: false },
-        ]
-      }, 10)
+    async getPermisssionsList() {
+      const db = await Rbac.getAllPowers()
+      if (db.code !== 0) {
+        return
+      }
+      const ls = db.data.list
+      this.allPermissions = []
+      ls.forEach(i => {
+        this.allPermissions.push({ id: i.id, name: i.name, checked: false })
+      })
     },
   },
   mounted() {
