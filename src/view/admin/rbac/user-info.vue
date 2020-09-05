@@ -49,8 +49,7 @@
 </template>
 
 <script>
-import Admin from '@/lin/model/admin'
-import User from '@/lin/model/user'
+import Admin from '@/model/rbac'
 
 export default {
   props: {
@@ -60,7 +59,7 @@ export default {
     },
     id: {
       // 用户id
-      type: Number,
+      type: String,
       default: undefined,
     },
     groups: {
@@ -151,55 +150,34 @@ export default {
       this.$refs[formName].validate(async valid => {
         // eslint-disable-line
         if (valid) {
-          // 新增用户
           let res
-          if (this.pageType === 'add') {
-            try {
-              this.loading = true
-              res = await User.register(this.form)
-              if (res.code < window.MAX_SUCCESS_CODE) {
-                this.loading = false
-                this.$message.success(`${res.message}`)
-                this.eventBus.$emit('addUser', true)
-                this.resetForm(formName)
-              }
-            } catch (e) {
-              this.loading = false
-              if (e.data.code === 10073) {
-                this.$message.error(e.data.message)
-              } else {
-                this.$message.error('新增用户失败')
-              }
-              console.log(e)
-            }
-          } else {
-            // 更新用户信息
-            if (
-              this.form.email === this.info.email
-              && this.form.group_ids.sort().toString() === this.info.group_ids.sort().toString()
-            ) {
-              this.$emit('handleInfoResult', false)
+          // 更新用户信息
+          if (
+            this.form.email === this.info.email
+            && this.form.group_ids.sort().toString() === this.info.group_ids.sort().toString()
+          ) {
+            this.$emit('handleInfoResult', false)
+            return
+          }
+          try {
+            if (!this.form.group_ids.length) {
+              this.$message.error('至少选择一个分组')
               return
             }
-            try {
-              if (!this.form.group_ids.length) {
-                this.$message.error('至少选择一个分组')
-                return
-              }
-              this.loading = true
-              res = await Admin.updateOneUser(this.form.email, this.form.group_ids, this.id)
-            } catch (e) {
-              this.loading = false
-              console.log(e)
-            }
-            if (res.code < window.MAX_SUCCESS_CODE) {
-              this.loading = false
-              this.$message.success(`${res.message}`)
-              this.$emit('handleInfoResult', true)
-            } else {
-              this.loading = false
-              this.$message.error(`${res.message}`)
-            }
+            this.loading = true
+            console.log('form=', this.form)
+            res = await Admin.updateOneUser(this.form.email, this.form.group_ids, this.id)
+          } catch (e) {
+            this.loading = false
+            console.log(e)
+          }
+          if (res.code < window.MAX_SUCCESS_CODE) {
+            this.loading = false
+            this.$message.success(`${res.message}`)
+            this.$emit('handleInfoResult', true)
+          } else {
+            this.loading = false
+            this.$message.error(`${res.message}`)
           }
         } else {
           console.log('error submit!!')
@@ -221,12 +199,13 @@ export default {
       this.form.email = this.info.email
       const temp = []
       this.info.group_ids.forEach(item => {
-        temp.push(item.id)
+        temp.push(`${item.id}`)
       })
       this.form.group_ids = temp
     },
   },
   created() {
+    this.pageType = 'edit'
     // 通过是否接收到数据来判断当前页面是添加数据还是编辑数据
     if (this.pageType === 'edit') {
       this.setInfo()

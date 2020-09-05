@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Admin from '@/lin/model/admin'
+import Admin from '@/model/rbac'
 
 export default {
   props: ['id'],

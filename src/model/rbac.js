@@ -69,20 +69,13 @@ export default class Rbac {
     return get('cms/admin/permission')
   }
 
+  // user
   static async getAdminUsers({ group_id, count = this.uCount, page = this.uPag }) {
-    let res
-    if (group_id) {
-      res = await get('cms/admin/users', {
-        count,
-        page,
-        group_id,
-      })
-    } else {
-      res = await get('cms/admin/users', {
-        count,
-        page,
-      })
-    }
+    const res = await get('api_cms/cms/v1/rbac/users', {
+      size: count,
+      current: page,
+      role: group_id,
+    })
     return res
   }
 
@@ -190,8 +183,9 @@ export default class Rbac {
   }
 
   static async changePassword(new_password, confirm_password, id) {
-    const res = await put(`cms/admin/user/${id}/password`, {
-      new_password,
+    const res = await put('api_cms/cms/v1/rbac/user-password', {
+      id,
+      password: new_password,
       confirm_password,
     })
     return res

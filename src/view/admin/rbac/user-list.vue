@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import Admin from '@/lin/model/admin'
+import Admin from '@/model/rbac'
 import LinTable from '@/component/base/table/lin-table'
 import UserInfo from './user-info'
 import UserPassword from './user-password'
@@ -73,7 +73,7 @@ export default {
   inject: ['eventBus'],
   data() {
     return {
-      id: 0, // 用户id
+      id: '0', // 用户id
       refreshPagination: true, // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
       editIndex: null, // 编辑的行
       total_nums: 0, // 分组内的用户总数
@@ -102,13 +102,16 @@ export default {
     // 根据分组 刷新/获取分组内的用户
     async getAdminUsers() {
       let res
-      const currentPage = this.currentPage - 1
+      // const {currentPage} = this
       try {
         this.loading = true
-        res = await Admin.getAdminUsers({ group_id: this.group_id, count: this.pageCount, page: currentPage }) // eslint-disable-line
+        res = await Admin.getAdminUsers({ group_id: this.group_id, count: this.pageCount, page: this.currentPage }) // eslint-disable-line
         this.loading = false
-        this.tableData = this.shuffleList(res.items)
-        this.total_nums = res.total
+        if (res.code !== 0) {
+          return
+        }
+        this.tableData = this.shuffleList(res.data.list)
+        this.total_nums = res.data.pagination.total
       } catch (e) {
         this.loading = false
         console.log(e)
@@ -118,7 +121,8 @@ export default {
     async getAllGroups() {
       try {
         this.loading = true
-        this.groups = await Admin.getAllGroups()
+        const db1 = await Admin.getAllGroups()
+        this.groups = db1.data.list
         this.loading = false
       } catch (e) {
         this.loading = false
@@ -137,9 +141,9 @@ export default {
         selectedData = val
       }
       this.id = selectedData.id
-      this.form.username = selectedData.username
-      this.form.email = selectedData.email
-      this.form.group_ids = selectedData.groups
+      this.form.username = selectedData.extended.name
+      this.form.email = selectedData.extended.email
+      this.form.group_ids = selectedData.role_ids
       this.dialogFormVisible = true
     },
     // 下拉框选择分组
@@ -247,8 +251,8 @@ export default {
       const list = []
       users.forEach(element => {
         const groups = []
-        element.groups.forEach(item => {
-          groups.push(item.name)
+        element.role_ids.forEach(item => {
+          groups.push(item)
         })
         element.groupNames = groups.join(',')
         list.push(element)
@@ -260,7 +264,7 @@ export default {
     await this.getAdminUsers()
     this.getAllGroups()
     this.tableColumn = [
-      { prop: 'username', label: '名称' },
+      { prop: 'extended.name', label: '名称' },
       { prop: 'groupNames', label: '所属分组' },
     ] // 设置表头信息
     this.operate = [
