@@ -197,11 +197,13 @@ Utils.came = str => {
  * 判断权限
  */
 Utils.hasPermission = (permissions, route, user) => {
+  console.log('route:', route)
   // eslint-disable-line
-  if (user && user.admin) {
+  if (user && user.admin === 1) {
     return true
   }
   if (route.permission) {
+    permissions = user.permissions // 接管权限
     return permissions.some(permission => route.permission.indexOf(permission) > -1)
   }
   return true

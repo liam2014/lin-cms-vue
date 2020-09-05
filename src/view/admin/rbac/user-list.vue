@@ -266,6 +266,7 @@ export default {
     this.tableColumn = [
       { prop: 'extended.name', label: '名称' },
       { prop: 'groupNames', label: '所属分组' },
+      { prop: 'id', label: 'ID' },
     ] // 设置表头信息
     this.operate = [
       { name: '编辑', func: 'handleEdit', type: 'primary' },

@@ -181,7 +181,8 @@ export default {
     await this.getAllGroups()
     this.tableColumn = [
       { prop: 'name', label: '名称' },
-      { prop: 'extended.info', label: '信息' },
+      { prop: 'tag', label: '标签' },
+      { prop: 'id', label: 'ID' },
     ] // 设置表头信息
     this.operate = [
       { name: '信息', func: 'handleEdit', type: 'primary' },
