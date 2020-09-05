@@ -167,9 +167,10 @@ export default class Rbac {
   }
 
   static async updateOneUser(email, group_ids, id) {
-    const res = await put(`cms/admin/user/${id}`, {
+    const res = await put('api_cms/cms/v1/rbac/user', {
+      id,
       email,
-      group_ids,
+      role_ids: group_ids,
     })
     return res
   }

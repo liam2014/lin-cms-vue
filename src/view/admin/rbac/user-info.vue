@@ -21,18 +21,6 @@
           auto-complete="new-password"
         ></el-input>
       </el-form-item>
-      <el-form-item v-if="pageType === 'add'" label="密码" prop="password">
-        <el-input
-          size="medium"
-          clearable
-          type="password"
-          v-model="form.password"
-          auto-complete="new-password"
-        ></el-input>
-      </el-form-item>
-      <el-form-item v-if="pageType === 'add'" label="确认密码" prop="confirm_password" label-position="top">
-        <el-input size="medium" clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
-      </el-form-item>
       <el-form-item v-if="pageType !== 'password'" label="选择分组">
         <el-checkbox-group v-model="form.group_ids" size="small" style="transform: translateY(5px);">
           <el-checkbox v-for="item in groups" :key="item.id" :label="item.id" border style="margin-left: 0">{{
@@ -166,7 +154,7 @@ export default {
             }
             this.loading = true
             console.log('form=', this.form)
-            res = await Admin.updateOneUser(this.form.email, this.form.group_ids, this.id)
+            res = await Admin.updateOneUser(this.form.email, this.getRoleIDs(this.form.group_ids), this.id)
           } catch (e) {
             this.loading = false
             console.log(e)
@@ -198,10 +186,20 @@ export default {
       this.form.username = this.info.username
       this.form.email = this.info.email
       const temp = []
+      // console.log('roldIDs', this.info)
       this.info.group_ids.forEach(item => {
-        temp.push(`${item.id}`)
+        temp.push(item)
       })
       this.form.group_ids = temp
+    },
+    getRoleIDs(list) {
+      const ls = []
+      list.forEach(item => {
+        if (item && item !== 'undefined') {
+          ls.push(item)
+        }
+      })
+      return ls
     },
   },
   created() {
