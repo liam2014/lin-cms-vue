@@ -55,7 +55,12 @@
       </div>
       <!-- 按键操作 -->
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirmEdit">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="confirmEdit"
+          v-permission="{ permission: 'rbac-user-password', type: 'disabled' }"
+          >确 定</el-button
+        >
         <el-button @click="resetForm">重 置</el-button>
       </div>
     </el-dialog>

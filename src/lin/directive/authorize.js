@@ -1,16 +1,17 @@
 import Vue from 'vue'
 import store from '@/store'
 
+// eslint-disable-next-line no-unused-vars
 function isAllowed(permission, user, permissions) {
   if (user.admin === 1) {
-    // if (user.admin) {
     return true
   }
+  const ls = user.permissions
   if (typeof permission === 'string') {
-    return permissions.includes(permission)
+    return ls.includes(permission)
   }
   if (permission instanceof Array) {
-    return permission.some(auth => permissions.indexOf(auth) >= 0)
+    return ls.some(auth => permission.indexOf(auth) >= 0)
   }
   return false
 }

@@ -7,6 +7,7 @@ const accountRouter = {
   filePath: 'view/account/', // 文件路径
   order: null,
   inNav: true,
+  permission: ['rbac-menu'],
   children: [
     {
       route: '/rbac/user/list',
@@ -16,6 +17,7 @@ const accountRouter = {
       icon: 'iconfont icon-huiyuanguanli',
       filePath: 'view/admin/rbac/',
       inNav: true,
+      permission: ['rbac-user-menu'],
       children: [
         {
           title: '管理员列表',
@@ -25,6 +27,7 @@ const accountRouter = {
           filePath: 'view/admin/rbac/user-list.vue',
           inNav: true,
           icon: 'iconfont icon-tushuguanli',
+          permission: ['rbac-user-list'],
         },
         {
           title: '添加管理员',
@@ -34,6 +37,7 @@ const accountRouter = {
           filePath: 'view/admin/rbac/user-create.vue',
           inNav: true,
           icon: 'iconfont icon-tushuguanli',
+          permission: ['rbac-user-create'],
         },
       ],
     },
