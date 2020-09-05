@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import { post, get, put, _delete } from '@/lin/plugin/axios'
+import { post, get, put } from '@/lin/plugin/axios'
 
 export default class Rbac {
   constructor(uPage = 0, uCount = 10, gPage = 0, gCount = 5) {
@@ -162,7 +162,10 @@ export default class Rbac {
   }
 
   static async deleteOneUser(id) {
-    const res = await _delete(`cms/admin/user/${id}`)
+    const res = await put('api_cms/cms/v1/rbac/user-status', {
+      status: 44,
+      ids: [id],
+    })
     return res
   }
 

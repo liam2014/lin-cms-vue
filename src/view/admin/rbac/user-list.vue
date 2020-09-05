@@ -251,7 +251,7 @@ export default {
       const list = []
       users.forEach(element => {
         const groups = []
-        element.role_ids.forEach(item => {
+        element.role_names.forEach(item => {
           groups.push(item)
         })
         element.groupNames = groups.join(',')
@@ -261,8 +261,8 @@ export default {
     },
   },
   async created() {
-    await this.getAdminUsers()
     this.getAllGroups()
+    await this.getAdminUsers()
     this.tableColumn = [
       { prop: 'extended.name', label: '名称' },
       { prop: 'groupNames', label: '所属分组' },
