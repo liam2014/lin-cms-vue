@@ -5,6 +5,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+  publicPath: './', // 配置相对路径
   lintOnSave: true,
   productionSourceMap: false,
   // assetsDir: 'static',

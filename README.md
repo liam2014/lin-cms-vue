@@ -88,6 +88,10 @@ npm install or yarn
 npm run serve or yarn serve
 ```
 
+# build
+
+yarn build
+
 ## 讨论交流
 微信公众号搜索：林间有风
 <br>

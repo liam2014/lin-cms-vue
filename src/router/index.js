@@ -36,7 +36,9 @@ let isLoginRequired = routeName => {
 }
 
 const router = new Router({
+  //  去掉地址中的哈希# (离线运行： hash| 路径： history)
   // mode: 'history',
+  mode: 'hash',
   scrollBehavior: () => ({
     y: 0,
   }),
