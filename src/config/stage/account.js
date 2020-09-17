@@ -31,7 +31,7 @@ const accountRouter = {
           type: 'view',
           name: 'DemoView',
           route: '/demo/view',
-          filePath: 'view/account/demo/group-power.vue',
+          filePath: 'view/stats/site-list.vue',
           inNav: true,
           icon: 'iconfont icon-tushuguanli',
         },
